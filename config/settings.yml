@@ -1,0 +1,8 @@
+plugins:
+  vk_client_id:
+    default: ""
+  vk_client_secret:
+    default: ""
+  vk_login_enabled:
+    client: true
+    default: false
