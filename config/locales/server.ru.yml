@@ -2,5 +2,5 @@
 
 ru:
   site_settings:
-    vk_client_id: "Client_id, зарегистрированный в http://vk.com/"
-    vk_client_secret: "Client_secret, зарегистрированный http://vk.com/"
+    vk_app_id: "App ID, зарегистрированный в https://vk.com/"
+    vk_secure_key: "Secure key, зарегистрированный https://vk.com/"

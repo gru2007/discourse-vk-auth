@@ -1,16 +1,14 @@
 # name: discourse-vk-auth
-# about: Authenticate with vk.com, see more at: https://vk.com/developers.php?id=-1_37230422&s=1
+# about: Authenticate with VK.com
 # version: 0.1
-# author: pmusaraj
+# author: Penar Musaraj
 # url: https://github.com/discourse/discourse-vk-auth
 
-enabled_site_setting :vk_login_enabled
-enabled_site_setting :vk_client_id
-enabled_site_setting :vk_client_secret
+enabled_site_setting :vk_auth_enabled
+enabled_site_setting :vk_app_id
+enabled_site_setting :vk_secure_key
 
 gem 'omniauth-vkontakte', '1.5.0'
-
-register_svg_icon "fab fa-vk" if respond_to?(:register_svg_icon)
 
 class Auth::VkontakteAuthenticator < Auth::ManagedAuthenticator
 
@@ -19,15 +17,16 @@ class Auth::VkontakteAuthenticator < Auth::ManagedAuthenticator
   end
 
   def enabled?
-    SiteSetting.vk_login_enabled
+    SiteSetting.vk_auth_enabled
   end
 
   def register_middleware(omniauth)
     omniauth.provider :vkontakte,
            setup: lambda { |env|
              strategy = env["omniauth.strategy"]
-              strategy.options[:client_id] = SiteSetting.vk_client_id
-              strategy.options[:client_secret] = SiteSetting.vk_client_secret
+              strategy.options[:client_id] = SiteSetting.vk_app_id
+              strategy.options[:client_secret] = SiteSetting.vk_secure_key
+              strategy.options[:scope] = 'email'
            }
   end
 
@@ -35,7 +34,7 @@ class Auth::VkontakteAuthenticator < Auth::ManagedAuthenticator
     info = UserAssociatedAccount.find_by(provider_name: name, user_id: user.id)&.info
     return "" if info.nil?
 
-    info["name"] || ""
+    info["name"] || info["email"] || ""
   end
 
   def after_authenticate(auth_token, existing_account: nil)
@@ -48,6 +47,8 @@ end
 auth_provider frame_width: 920,
               frame_height: 800,
               authenticator: Auth::VkontakteAuthenticator.new
+
+register_svg_icon "fab fa-vk" if respond_to?(:register_svg_icon)
 
 register_css <<CSS
 .btn-social.vkontakte {

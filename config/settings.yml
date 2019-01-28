@@ -1,8 +1,8 @@
 plugins:
-  vk_client_id:
+  vk_app_id:
     default: ""
-  vk_client_secret:
+  vk_secure_key:
     default: ""
-  vk_login_enabled:
+  vk_auth_enabled:
     client: true
     default: false
