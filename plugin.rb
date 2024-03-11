@@ -53,12 +53,6 @@ class Auth::VkontakteAuthenticator < Auth::ManagedAuthenticator
   end
 end
 
-auth_provider frame_width: 920, frame_height: 800, authenticator: Auth::VkontakteAuthenticator.new
+register_svg_icon "fab-vk" if respond_to?(:register_svg_icon)
 
-register_svg_icon "fab fa-vk" if respond_to?(:register_svg_icon)
-
-register_css <<CSS
-.btn-social.vkontakte {
-  background: #46698f;
-}
-CSS
+auth_provider authenticator: Auth::VkontakteAuthenticator.new, icon: "fab-vk"
