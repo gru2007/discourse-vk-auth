@@ -56,4 +56,3 @@ end
 register_svg_icon "fab-vk" if respond_to?(:register_svg_icon)
 
 auth_provider authenticator: Auth::VkontakteAuthenticator.new, icon: "fab-vk"
-
